@@ -49,6 +49,7 @@ labelList = 'CY_XFJE','GW_XFJE','YS_XFJE','JF_XFJE','JT_XFJE','JY_XFJE','JS_XFJE
 dataList = list([CY_XFJE,GW_XFJE,YS_XFJE,JF_XFJE,JT_XFJE,JY_XFJE, JS_XFJE, XY_XFJE,QT_XFJE])
 print(type(dataList))
 
-plt.pie(dataList,labels=labelList)
+plt.pie(dataList,labels=labelList,autopct="%1.2f%%")
 plt.title('消费占比')
+plt.savefig("XFJE_BZT.jpg")
 plt.show()

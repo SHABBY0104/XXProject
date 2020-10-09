@@ -9,42 +9,40 @@ data=pd.read_csv('Total.csv')
 #data=data["ZF_RATIO"]
 
 
-data=data[data['SUM_XFJE']<=6000]
-# data=data[data['ZF_RATIO']<=0.2]
-print(data)
-#data=data.sort_values(by="COUNT(BUSINESSTYPE)" , ascending=True)
-#data["ZF_RATIO"]=data["ZF_RATIO"].apply(lambda x:  x*10000)
-#data["GW_XFJE"]=data["GW_XFJE"].apply(lambda x:  x*10000)
-y = data['ZF_RATIO']
+Y_Name = 'ZF_RATIO'
+# X_Name = 'IN_COUNT'
+# Threshold = 400
 
-x = data['SUM_XFJE']
-print(x)
-x_data = np.array(x)#np.ndarray()
-x_list=x_data.tolist()#list
-y_data = np.array(y)#np.ndarray()
-y_list=y_data.tolist()#list
+# X_Name = 'CY_XFCS'
+# Threshold = 300
 
-# "r" 表示红色，ms用来设置*的大小
-#plt.plot(x_list, y_list, "y", marker='*', ms=0, label="a")
-# plt.scatter(x_list, y_list, label='a',s=5)
-xy = np.vstack([x_data,y_data])
+# X_Name = 'CY_XFJE'
+# Threshold = 5000
+#
+# X_Name = 'SUM_XFCS'
+# Threshold = 800
+#
+X_Name = 'SUM_XFJE'
+Threshold = 5000
+
+
+data = data[data[X_Name]<Threshold]
+
+x = np.array(data[X_Name])
+y = np.array(data[Y_Name])
+
+xy = np.vstack([x,y])
 z = gaussian_kde(xy)(xy)
 
-# idx = z.argsort()
-# x, y, z = x[idx], y[idx], z[ idx]
 
 fig, ax = plt.subplots()
-ax.scatter(x, y, c = z, s = 10, edgecolor ='')
-# plt.show()
-# plt.plot([1, 2, 3, 4], [20, 30, 80, 40], label="b")
-# plt.xticks(rotation=45)
-# plt.xlabel("餐饮消费金额")
-# plt.ylabel("成绩")
-# plt.title("成绩与餐饮消费金额散点图")
-# # upper left 将图例a显示到左上角
-# plt.legend(loc="upper left")
-# # 在折线图上显示具体数值, ha参数控制水平对齐方式, va控制垂直对齐方式
-# #for x1, y1 in zip(x, y):
-#    # plt.text(x1, y1 + 1, str(y1), ha='center', va='bottom', fontsize=20, rotation=0)
-plt.savefig("GW_XFJE.jpg")
+ax.scatter(x, y, c = z, s = 7, edgecolor ='')
+
+
+plt.xlabel(X_Name)
+plt.ylabel(Y_Name)
+plt.title(X_Name + " AND " + Y_Name + " < " + str(Threshold))
+plt.savefig(X_Name + "_DEN.jpg")
+
+
 plt.show()
